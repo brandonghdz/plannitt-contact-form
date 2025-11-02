@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plannitt Business Services - Contact Us</title>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #6e6e73;
+            font-size: 16px;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #d2d2d7;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            color: #1d1d1f;
+            background: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #86868b;
+        }
+
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .optional {
+            color: #86868b;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #0071e3;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #1d1d1f;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        select {
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            max-height: 300px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.3px;
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #0077ed;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: #d2d2d7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            display: none;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1.5px solid #81c784;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            border: 1.5px solid #e57373;
+        }
+
+        .required {
+            color: #ff3b30;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .name-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Get in Touch</h1>
+        <p class="subtitle">We'd love to hear from you. Let us know how we can help.</p>
+
+        <div id="successMessage" class="success-message">
+            Thank you! Your message has been sent successfully. We'll get back to you soon.
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            Oops! Something went wrong. Please try again.
+        </div>
+
+        <form id="contactForm">
+            <div class="name-group">
+                <div class="form-group">
+                    <label for="firstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="John">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="[email protected]">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number <span class="optional">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="canText" name="canText">
+                    <label for="canText" class="checkbox-label">You can text me at this number</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contactReason">How can we help? <span class="required">*</span></label>
+                <select id="contactReason" name="contactReason" required>
+                    <option value="">Select a reason...</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Sapling Tier Inquiry">Sapling Tier Inquiry</option>
+                    <option value="Growth Tier Inquiry">Growth Tier Inquiry</option>
+                    <option value="Sequoia Tier Inquiry">Sequoia Tier Inquiry</option>
+                    <option value="Service Consultation">Service Consultation</option>
+                    <option value="Pricing Information">Pricing Information</option>
+                    <option value="Partnership Opportunity">Partnership Opportunity</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message <span class="required">*</span></label>
+                <textarea id="message" name="message" required placeholder="Tell us more about what you're looking for..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+        </form>
+    </div>
+
+    <script>
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init("aF5mFFV3JaZlt7Jr8");
+        })();
+
+        // Counter for email IDs (in production, use a backend for this)
+        let emailCounter = parseInt(localStorage.getItem('emailCounter') || '1000');
+
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Increment email counter
+            emailCounter++;
+            localStorage.setItem('emailCounter', emailCounter);
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const canText = document.getElementById('canText').checked;
+            const contactReason = document.getElementById('contactReason').value;
+            const message = document.getElementById('message').value;
+
+            // Create email subject with ID
+            const subject = contactReason + ' - #' + emailCounter;
+
+            // Prepare template parameters
+            const templateParams = {
+                to_email: 'hello@goplannitt.com',
+                subject: subject,
+                firstName: firstName,
+                lastName: lastName,
+                fullName: firstName + ' ' + lastName,
+                email: email,
+                phone: phone || 'Not provided',
+                canText: canText ? 'Yes' : 'No',
+                contactReason: contactReason,
+                message: message,
+                emailId: emailCounter
+            };
+
+            // Send email via EmailJS
+            emailjs.send('service_v4b62qp', 'template_rt6d1vq', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+
+                    // Show success message
+                    successMessage.style.display = 'block';
+
+                    // Reset form
+                    form.reset();
+
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    // Hide success message after 5 seconds
+                    setTimeout(function() {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+
+                }, function(error) {
+                    console.log('FAILED...', error);
+
+                    // Show error message
+                    errorMessage.style.display = 'block';
+
+                    // Re-enable submit button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Message';
+
+                    // Scroll to error message
+                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    // Hide error message after 5 seconds
+                    setTimeout(function() {
+                        errorMessage.style.display = 'none';
+                    }, 5000);
+                });
+        });
+
+        // Phone number formatting
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = '(' + value;
+                } else if (value.length <= 6) {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+                } else {
+                    value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
+                }
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
